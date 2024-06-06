@@ -17,7 +17,7 @@ SI VPRInit(VPR_IMAGE_DESCRIPTOR *VPRDescriptor,
 	if( !VPRImagePosition((SI)VPRDescriptor->ImageSizeX, (SI)VPRDescriptor->ImageSizeY,0,0) )
 		return 0;
 
-	// Инициализация матрицы ячеек 
+	// В»РЅРёС†РёР°Р»РёР·Р°С†РёВ¤ РјР°С‚СЂРёС†С‹ В¤С‡РµРµРє 
 	for(sy=0,predptr=PredPtr;sy < S_Y;sy++)
 		for(sx=0;sx < S_X;sx++,predptr++)
 		{
@@ -50,7 +50,7 @@ SI VPRImagePosition(SI      ImageSizeX,
 	if (ImageSizeX > RI_X || ImageSizeX < RI_MIN || ImageSizeY > RI_Y || ImageSizeY < RI_MIN)
 		return 0;
 
-	/* предварительное расположение изображения - в геометрическом центре расширенного буфера */
+	/* РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕРµ СЂР°СЃРїРѕР»РѕР¶РµРЅРёРµ РёР·РѕР±СЂР°Р¶РµРЅРёВ¤ - РІ РіРµРѕРјРµС‚СЂРёС‡РµСЃРєРѕРј С†РµРЅС‚СЂРµ СЂР°СЃС€РёСЂРµРЅРЅРѕРіРѕ Р±СѓС„РµСЂР° */
 	VPR_R_Left = (R_X / 2) - (ImageSizeX / 2);
 	VPR_R_Right = VPR_R_Left + ImageSizeX - 1;
 	VPR_R_Top = (R_Y / 2) - (ImageSizeY / 2);
@@ -61,7 +61,7 @@ SI VPRImagePosition(SI      ImageSizeX,
 	if (R_L < VPR_R_Left)
 	{
 		VPR_S_Left++;
-		OutL = S_ITEM_SIZE - (VPR_R_Left - R_L); /* внешняя область изображения - не покрыта матрицей */
+		OutL = S_ITEM_SIZE - (VPR_R_Left - R_L); /* РІРЅРµС€РЅВ¤В¤ РѕР±Р»Р°СЃС‚СЊ РёР·РѕР±СЂР°Р¶РµРЅРёВ¤ - РЅРµ РїРѕРєСЂС‹С‚Р° РјР°С‚СЂРёС†РµР№ */
 	}
 	else
 		OutL = 0;
@@ -71,7 +71,7 @@ SI VPRImagePosition(SI      ImageSizeX,
 	if (R_R > VPR_R_Right)
 	{
 		VPR_S_Right--;
-		OutR = S_ITEM_SIZE - (R_R - VPR_R_Right); /* внешняя область изображения - не покрыта матрицей */
+		OutR = S_ITEM_SIZE - (R_R - VPR_R_Right); /* РІРЅРµС€РЅВ¤В¤ РѕР±Р»Р°СЃС‚СЊ РёР·РѕР±СЂР°Р¶РµРЅРёВ¤ - РЅРµ РїРѕРєСЂС‹С‚Р° РјР°С‚СЂРёС†РµР№ */
 	}
 	else
 		OutR = 0;
@@ -81,7 +81,7 @@ SI VPRImagePosition(SI      ImageSizeX,
 	if (R_T < VPR_R_Top)
 	{
 		VPR_S_Top++;
-		OutT = S_ITEM_SIZE - (VPR_R_Top - R_T); /* внешняя область изображения - не покрыта матрицей */
+		OutT = S_ITEM_SIZE - (VPR_R_Top - R_T); /* РІРЅРµС€РЅВ¤В¤ РѕР±Р»Р°СЃС‚СЊ РёР·РѕР±СЂР°Р¶РµРЅРёВ¤ - РЅРµ РїРѕРєСЂС‹С‚Р° РјР°С‚СЂРёС†РµР№ */
 	}
 	else
 		OutT = 0;
@@ -91,22 +91,22 @@ SI VPRImagePosition(SI      ImageSizeX,
 	if (R_B > VPR_R_Bottom)
 	{
 		VPR_S_Bottom--;
-		OutB = S_ITEM_SIZE - (R_B - VPR_R_Bottom); /* внешняя область изображения - не покрыта матрицей */
+		OutB = S_ITEM_SIZE - (R_B - VPR_R_Bottom); /* РІРЅРµС€РЅВ¤В¤ РѕР±Р»Р°СЃС‚СЊ РёР·РѕР±СЂР°Р¶РµРЅРёВ¤ - РЅРµ РїРѕРєСЂС‹С‚Р° РјР°С‚СЂРёС†РµР№ */
 	}
 	else
 		OutB = 0;
 
-	/* выравнивание позиции изображения по отношению к ячейкам матрицы */
+	/* РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕР·РёС†РёРё РёР·РѕР±СЂР°Р¶РµРЅРёВ¤ РїРѕ РѕС‚РЅРѕС€РµРЅРёСЋ Рє В¤С‡РµР№РєР°Рј РјР°С‚СЂРёС†С‹ */
 	if (OutL + OutR >= S_ITEM_SIZE)
 	{
-		VPR_S_Left--; /* включение самой левой колонки */
+		VPR_S_Left--; /* РІРєР»СЋС‡РµРЅРёРµ СЃР°РјРѕР№ Р»РµРІРѕР№ РєРѕР»РѕРЅРєРё */
 		VPR_R_Left -= (S_ITEM_SIZE - OutL);
 	}
 
-	/* выравнивание позиции изображения по отношению к ячейкам матрицы */
+	/* РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕР·РёС†РёРё РёР·РѕР±СЂР°Р¶РµРЅРёВ¤ РїРѕ РѕС‚РЅРѕС€РµРЅРёСЋ Рє В¤С‡РµР№РєР°Рј РјР°С‚СЂРёС†С‹ */
 	if (OutT + OutB >= S_ITEM_SIZE)
 	{
-		VPR_S_Top--;  /* включение самого верхнего ряда */
+		VPR_S_Top--;  /* РІРєР»СЋС‡РµРЅРёРµ СЃР°РјРѕРіРѕ РІРµСЂС…РЅРµРіРѕ СЂВ¤РґР° */
 		VPR_R_Top -= (S_ITEM_SIZE - OutT);
 	}
 

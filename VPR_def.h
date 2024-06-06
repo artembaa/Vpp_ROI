@@ -40,7 +40,7 @@ typedef unsigned int UINT_PTR;
 #endif
 
 //*********************************************************
-//			        ОПРЕДЕЛЕНИЯ ТИПОВ
+//			        СњС•вЂ“в‰€Ж’в‰€Р‹в‰€РЊВ»СЏ вЂњВ»С•СњВ¬
 //*********************************************************
 typedef unsigned char    UC;	 //8bit
 typedef signed char      SC;	 //8bit
@@ -55,19 +55,19 @@ typedef double           DOUBLE; //64bit
 #define FALSE  0
 
 //*********************************************************
-//			 ОПРЕДЕЛЕНИЯ, СВЯЗАННЫЕ С ОБРАБОТКОЙ
+//			 СњС•вЂ“в‰€Ж’в‰€Р‹в‰€РЊВ»СЏ, вЂ”В¬СЏВ«СРЊРЊСџв‰€ вЂ” СњР…вЂ“СР…СњвЂњВ СњвЂ¦
 //*********************************************************
 #define DIV_N(divident,divisor) ((divident)/(divisor))
 
-// Определения для входного изображения (RI - Rastr Input)
-#define   RI_X			 1008 /* пикселей, должен быть ЧЕТНЫМ и кратным S_ITEM_SIZE (7) */
-#define   RI_Y			 1008 /* пикселей, должен быть ЧЕТНЫМ и кратным S_ITEM_SIZE (7) */
+// СњРїСЂРµРґРµР»РµРЅРёВ¤ РґР»В¤ РІС…РѕРґРЅРѕРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёВ¤ (RI - Rastr Input)
+#define   RI_X			 1008 /* РїРёРєСЃРµР»РµР№, РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ вЂћв‰€вЂњРЊСџС› Рё РєСЂР°С‚РЅС‹Рј S_ITEM_SIZE (7) */
+#define   RI_Y			 1008 /* РїРёРєСЃРµР»РµР№, РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ вЂћв‰€вЂњРЊСџС› Рё РєСЂР°С‚РЅС‹Рј S_ITEM_SIZE (7) */
 #define   RI_XY			 (RI_X*RI_Y) 
 #define   RI_MIN		 96 
 
-// Определения для матрицы (S - Stream matrix)
-#define   S_EXPANDER    3 /* ячейки матрицы */
-#define   S_ITEM_SIZE   7 /* размер ячейки матрицы в пикселях */
+// СњРїСЂРµРґРµР»РµРЅРёВ¤ РґР»В¤ РјР°С‚СЂРёС†С‹ (S - Stream matrix)
+#define   S_EXPANDER    3 /* В¤С‡РµР№РєРё РјР°С‚СЂРёС†С‹ */
+#define   S_ITEM_SIZE   7 /* СЂР°Р·РјРµСЂ В¤С‡РµР№РєРё РјР°С‚СЂРёС†С‹ РІ РїРёРєСЃРµР»В¤С… */
 #define   S_ITEM_HSIZE  (S_ITEM_SIZE/2)
 #define   S_X			((RI_X/S_ITEM_SIZE)+(S_EXPANDER*2)) 
 #define   S_Y			((RI_Y/S_ITEM_SIZE)+(S_EXPANDER*2))
@@ -75,7 +75,7 @@ typedef double           DOUBLE; //64bit
 #define   S_OffsetToCoord(Offset,X,Y) { Y=DIV_N(Offset,S_X); X=(Offset)-((Y)*S_X); }
 #define   S_CoordToOffset(X,Y) (((Y)*S_X)+(X))
 
-// Определения для расширенного изображения (R - Rastr)
+// СњРїСЂРµРґРµР»РµРЅРёВ¤ РґР»В¤ СЂР°СЃС€РёСЂРµРЅРЅРѕРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёВ¤ (R - Rastr)
 #define   R_EXPANDER    (S_EXPANDER*S_ITEM_SIZE)
 #define   R_X			(RI_X+R_EXPANDER*2)
 #define   R_Y			(RI_Y+R_EXPANDER*2)   
@@ -86,7 +86,7 @@ void	  R_OffsetToCoord(UL index,SI *X,SI *Y);
 #define   R_To_S_Coord(Coord) (DIV_N(Coord,S_ITEM_SIZE)) 
 #define   S_To_R_Coord(Coord) ((Coord)*S_ITEM_SIZE)
 
-// Предикаты (битовые признаки)
+// С•СЂРµРґРёРєР°С‚С‹ (Р±РёС‚РѕРІС‹Рµ РїСЂРёР·РЅР°РєРё)
 #define  IMAGE_PRED			0x0001
 #define  REGION3_PRED		0x0002
 #define  FNGREG_PRED		0x0004
@@ -189,7 +189,7 @@ POINT_COORDS;
 
 
 //*********************************************************
-//			       ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
+//			       в€љР‹СњР…СР‹в„–РЊСџв‰€ С•в‰€вЂ“в‰€С›в‰€РЊРЊСџв‰€
 //*********************************************************
 
 extern    SI  S_Left,S_Right,S_Top,S_Bottom;
@@ -208,8 +208,8 @@ extern  UC    InclTable64[INCL_TABLE_64_SIZE*INCL_TABLE_64_SIZE];
 
 
 //*********************************************************
-//			       ВНУТРЕННИЕ ФУНКЦИИ
-//*********************************************************/
+//			       В¬РЊвЂќвЂњвЂ“в‰€РЊРЊВ»в‰€ вЂвЂќРЊВ Г·В»В»
+//*********************************************************
 UC  GetIncl(SI  X1,
 			SI  Y1,
 			SI  X2,

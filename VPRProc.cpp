@@ -7,13 +7,13 @@ extern struct _timeb t1, t2;
 
 typedef struct
 {
-	UC C[HALF_INCL_NUMBER]; /* контраст для различных ориентаций линейной выборки [0-255] */
+	UC C[HALF_INCL_NUMBER]; /* РєРѕРЅС‚СЂР°СЃС‚ РґР»СЏ СЂР°Р·Р»РёС‡РЅС‹С… РѕСЂРёРµРЅС‚Р°С†РёР№ Р»РёРЅРµР№РЅРѕР№ РІС‹Р±РѕСЂРєРё [0-255] */
 }
 C_SP;
 
 typedef struct
 {
-	UI  M[HALF_INCL_NUMBER]; /* мера наилучшей ориентации для различных ориентаций линейной выборки [0-255] */
+	UI  M[HALF_INCL_NUMBER]; /* РјРµСЂР° РЅР°РёР»СѓС‡С€РµР№ РѕСЂРёРµРЅС‚Р°С†РёРё РґР»СЏ СЂР°Р·Р»РёС‡РЅС‹С… РѕСЂРёРµРЅС‚Р°С†РёР№ Р»РёРЅРµР№РЅРѕР№ РІС‹Р±РѕСЂРєРё [0-255] */
 }
 M_SP;
 
@@ -71,13 +71,13 @@ SI  VPRProc(VPR_IMAGE_DESCRIPTOR *VPRDescriptor,
 	if( ((UINT_PTR)WorkRegionEndPointer-(UINT_PTR)WRPtr) > 2*R_XY )
 	{
 		#ifdef ACTIVATE_HELPER
-		FaultError("Недостаточно памяти");
+		FaultError("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РїР°РјСЏС‚Рё");
 		#endif
 		return 0;
 	}
 
 	//********************************************
-	//	     Инициализация слоев матрицы
+	//	     РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃР»РѕРµРІ РјР°С‚СЂРёС†С‹
 	//********************************************
 
 	if (!VPRInit(VPRDescriptor, PredPtr))
@@ -91,11 +91,11 @@ SI  VPRProc(VPR_IMAGE_DESCRIPTOR *VPRDescriptor,
 #endif
 
 	//***************************************************************************************
-	//		    Формирование контраста для различно-ориентированных линейных выборок  	     
+	//		    Р¤РѕСЂРјРёСЂРѕРІР°РЅРёРµ РєРѕРЅС‚СЂР°СЃС‚Р° РґР»СЏ СЂР°Р·Р»РёС‡РЅРѕ-РѕСЂРёРµРЅС‚РёСЂРѕРІР°РЅРЅС‹С… Р»РёРЅРµР№РЅС‹С… РІС‹Р±РѕСЂРѕРє  	     
 	//****************************************************************************************
 	for(Incl=0;Incl < HALF_INCL_NUMBER;Incl++)
 	{
-		/* Параллельная интеграция */
+		/* РџР°СЂР°Р»Р»РµР»СЊРЅР°СЏ РёРЅС‚РµРіСЂР°С†РёСЏ */
 		BPIPtr=R_Index+(UL)(Incl<<1)*R_CUTSET_HSIZE;
 		vpr_poffset1=*(BPIPtr+0);
 		vpr_poffset2=*(BPIPtr+1);
@@ -103,7 +103,7 @@ SI  VPRProc(VPR_IMAGE_DESCRIPTOR *VPRDescriptor,
 		vpr_poffset6=*(BPIPtr+5);
 		vpr_poffset8=*(BPIPtr+7);
 
-		/* Перпендикулярная выборка */
+		/* РџРµСЂРїРµРЅРґРёРєСѓР»СЏСЂРЅР°СЏ РІС‹Р±РѕСЂРєР° */
 		Normal=Incl+HALF_INCL_NUMBER/2;
 		if( Normal >= HALF_INCL_NUMBER )
 			Normal-=HALF_INCL_NUMBER;
@@ -173,7 +173,7 @@ SI  VPRProc(VPR_IMAGE_DESCRIPTOR *VPRDescriptor,
 #endif
 
 	//**********************************************************
-	//		 Формирование матрицы наклонений <I1, I2>		 
+	//		 Р¤РѕСЂРјРёСЂРѕРІР°РЅРёРµ РјР°С‚СЂРёС†С‹ РЅР°РєР»РѕРЅРµРЅРёР№ <I1, I2>		 
 	//**********************************************************
 	VPR_SumM = 0;
 	CountM = 0;
@@ -240,7 +240,7 @@ SI  VPRProc(VPR_IMAGE_DESCRIPTOR *VPRDescriptor,
 			if( bmptr->M[LIncl] >= M && bmptr->M[RIncl] <  M )
 				inclptr->I2=(SC)LIncl;
 
-			// включение в качестве альтернативы наилучшего левого/правого соседа
+			// РІРєР»СЋС‡РµРЅРёРµ РІ РєР°С‡РµСЃС‚РІРµ Р°Р»СЊС‚РµСЂРЅР°С‚РёРІС‹ РЅР°РёР»СѓС‡С€РµРіРѕ Р»РµРІРѕРіРѕ/РїСЂР°РІРѕРіРѕ СЃРѕСЃРµРґР°
 			if( bmptr->M[LIncl] >= bmptr->M[RIncl] ) RIncl=inclptr->I1;
 			else									 LIncl=inclptr->I1;
 
@@ -261,7 +261,7 @@ SI  VPRProc(VPR_IMAGE_DESCRIPTOR *VPRDescriptor,
 		return 0;
 
 	//*************************************************************************
-	//			Первичное обнаружение краев в виде линейных сегментов									  
+	//			РџРµСЂРІРёС‡РЅРѕРµ РѕР±РЅР°СЂСѓР¶РµРЅРёРµ РєСЂР°РµРІ РІ РІРёРґРµ Р»РёРЅРµР№РЅС‹С… СЃРµРіРјРµРЅС‚РѕРІ									  
 	//*************************************************************************
 	ThresholdM = VPR_SumM/3; //ThresholdM=VPR_SumM>>1;
 	if( ThresholdM < MIN_M ) ThresholdM=MIN_M;
@@ -319,7 +319,7 @@ SI  VPRProc(VPR_IMAGE_DESCRIPTOR *VPRDescriptor,
 #endif
 
 	//*************************************************************************
-	//		  Определение линии края (скелетизация линейных сегментов)										  
+	//		  РћРїСЂРµРґРµР»РµРЅРёРµ Р»РёРЅРёРё РєСЂР°СЏ (СЃРєРµР»РµС‚РёР·Р°С†РёСЏ Р»РёРЅРµР№РЅС‹С… СЃРµРіРјРµРЅС‚РѕРІ)										  
 	//*************************************************************************
 	for(sy=VPR_S_Top,bsindex=VPR_S_Offset;sy <= VPR_S_Bottom;sy++,bsindex+=S_X)
 		for(sx=VPR_S_Left,sindex=bsindex;sx <= VPR_S_Right;sx++,sindex++)
@@ -343,7 +343,7 @@ SI  VPRProc(VPR_IMAGE_DESCRIPTOR *VPRDescriptor,
 			Normal = Incl + HALF_INCL_NUMBER / 2;
 			if (Normal >= HALF_INCL_NUMBER)
 				Normal -= HALF_INCL_NUMBER;
-			Normal *= 2; // *2 - S_Index имеет размерность INCL_NUMBER!
+			Normal *= 2; // *2 - S_Index РёРјРµРµС‚ СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ INCL_NUMBER!
 			BNIPtr = S_Index + (UL)(Normal)*S_CUTSET_HSIZE;
 
 
@@ -416,7 +416,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 #endif
 
 	//*************************************************************************
-	//		   Фильтрация точек линий краев (не утоньшенные линии)			 
+	//		   Р¤РёР»СЊС‚СЂР°С†РёСЏ С‚РѕС‡РµРє Р»РёРЅРёР№ РєСЂР°РµРІ (РЅРµ СѓС‚РѕРЅСЊС€РµРЅРЅС‹Рµ Р»РёРЅРёРё)			 
 	//*************************************************************************
 	while(1)
 	{
@@ -471,7 +471,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 
 
 	//*************************************************************************
-	//				Фильтрация точек линий краев на основе наклонения								 
+	//				Р¤РёР»СЊС‚СЂР°С†РёСЏ С‚РѕС‡РµРє Р»РёРЅРёР№ РєСЂР°РµРІ РЅР° РѕСЃРЅРѕРІРµ РЅР°РєР»РѕРЅРµРЅРёСЏ								 
 	//*************************************************************************
 	for(sy=VPR_S_Top,bsindex=VPR_S_Offset;sy <= VPR_S_Bottom;sy++,bsindex+=S_X)
 		for(sx=VPR_S_Left,sindex=bsindex;sx <= VPR_S_Right;sx++,sindex++)
@@ -527,7 +527,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 
 
 	//*************************************************************************
-	//				Фильтрация точек ложных соединений линий краев
+	//				Р¤РёР»СЊС‚СЂР°С†РёСЏ С‚РѕС‡РµРє Р»РѕР¶РЅС‹С… СЃРѕРµРґРёРЅРµРЅРёР№ Р»РёРЅРёР№ РєСЂР°РµРІ
 	//*************************************************************************
 	for (sy = VPR_S_Top, bsindex = VPR_S_Offset; sy <= VPR_S_Bottom; sy++, bsindex += S_X)
 		for (sx = VPR_S_Left, sindex = bsindex; sx <= VPR_S_Right; sx++, sindex++)
@@ -539,7 +539,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 			UC c, ca, cc;
 			DefPoint_VPR(bpredptr, &c, &ca, &cc, FNGREG_PRED,0);
 			UC Type = DefPointType_VPR(c, cc);
-			if (Type == 3)  // точка соединения линий
+			if (Type == 3)  // С‚РѕС‡РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ Р»РёРЅРёР№
 			{
 				binclptr = VPR_InclPtr + sindex;
 				if (binclptr->I1 >= HALF_INCL_NUMBER)
@@ -563,25 +563,25 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 				SetPred(&bpredptr->Pred, CHANGE_PRED);
 			}
 			else
-			if (Type  == 1)  // точка окончания линии
+			if (Type  == 1)  // С‚РѕС‡РєР° РѕРєРѕРЅС‡Р°РЅРёСЏ Р»РёРЅРёРё
 				SetPred(&bpredptr->Pred, TMP2_PRED);
 		}
 
 #ifdef ACTIVATE_HELPER
 	//if (!Helper("8", DiffTimeInMilliseconds(&t1, &t2), 0, VPRPROC_DEMO_))  return 0;
 #endif
-	// удаление точек окончаний соседних к точкам соединений
+	// СѓРґР°Р»РµРЅРёРµ С‚РѕС‡РµРє РѕРєРѕРЅС‡Р°РЅРёР№ СЃРѕСЃРµРґРЅРёС… Рє С‚РѕС‡РєР°Рј СЃРѕРµРґРёРЅРµРЅРёР№
 	for (P = 0, bpredptr = PredPtr; P < S_XY; P++, bpredptr++)
 	{
-		if (GetPred(&bpredptr->Pred, TMP2_PRED))// точка окончания линии
+		if (GetPred(&bpredptr->Pred, TMP2_PRED))// С‚РѕС‡РєР° РѕРєРѕРЅС‡Р°РЅРёСЏ Р»РёРЅРёРё
 		{
-			DelPred(&bpredptr->Pred, TMP2_PRED);// снять отметку точка окончания линии
+			DelPred(&bpredptr->Pred, TMP2_PRED);// СЃРЅСЏС‚СЊ РѕС‚РјРµС‚РєСѓ С‚РѕС‡РєР° РѕРєРѕРЅС‡Р°РЅРёСЏ Р»РёРЅРёРё
 			Count = 0;
 			Count2 = 0;
 			for (i = 1; i < STREAM_REGION_3R_SIZE; i++)
 			{
 				offset = *(S_RegionIndex + i);
-				if (GetPred(&(bpredptr + offset)->Pred, CHANGE_PRED)) // точка соединения линий
+				if (GetPred(&(bpredptr + offset)->Pred, CHANGE_PRED)) // С‚РѕС‡РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ Р»РёРЅРёР№
 				{
 					offset2 = offset;
 					Count++;
@@ -591,15 +591,15 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 			}
 			if( Count == 1 && Count2==0 )
 			{
-				DelPred(&bpredptr->Pred, FNGREG_PRED);// удалить точку окончания линии
-				DelPred(&(bpredptr + offset2)->Pred, CHANGE_PRED);			 // снять отметку точка соединения линий
+				DelPred(&bpredptr->Pred, FNGREG_PRED);// СѓРґР°Р»РёС‚СЊ С‚РѕС‡РєСѓ РѕРєРѕРЅС‡Р°РЅРёСЏ Р»РёРЅРёРё
+				DelPred(&(bpredptr + offset2)->Pred, CHANGE_PRED);			 // СЃРЅСЏС‚СЊ РѕС‚РјРµС‚РєСѓ С‚РѕС‡РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ Р»РёРЅРёР№
 			}
 		}
 	}
 #ifdef ACTIVATE_HELPER
 	//if (!Helper("9", DiffTimeInMilliseconds(&t1, &t2), 0, VPRPROC_DEMO_))  return 0;
 #endif
-	// удаление оставшихся точек соединения, чтобы позже восстановить единую линию без ответвлений
+	// СѓРґР°Р»РµРЅРёРµ РѕСЃС‚Р°РІС€РёС…СЃСЏ С‚РѕС‡РµРє СЃРѕРµРґРёРЅРµРЅРёСЏ, С‡С‚РѕР±С‹ РїРѕР·Р¶Рµ РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ РµРґРёРЅСѓСЋ Р»РёРЅРёСЋ Р±РµР· РѕС‚РІРµС‚РІР»РµРЅРёР№
 	for (P = 0, bpredptr = PredPtr; P < S_XY; P++, bpredptr++)
 	{
 		if (GetPred(&bpredptr->Pred, CHANGE_PRED))
@@ -607,7 +607,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 	}
 
 	//************************************************************************
-	//				   Сбор линий краев как отдельных сегментов								
+	//				   РЎР±РѕСЂ Р»РёРЅРёР№ РєСЂР°РµРІ РєР°Рє РѕС‚РґРµР»СЊРЅС‹С… СЃРµРіРјРµРЅС‚РѕРІ								
 	//*************************************************************************
 	memset(EdgeLineSegmentList, 0, sizeof(EDGE_LINE_SEGMENT)*EDGE_LINE_SEGMENT_LIST_SIZE);
 	memset(VPR_EdgeSegmNamePtr,0,S_XY*sizeof(PRED_SP));
@@ -639,7 +639,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 			ap = GlobalSegmentIndex;
 			ip = GlobalSegmentIndex + 1;
 
-			/* начало сегмента */
+			/* РЅР°С‡Р°Р»Рѕ СЃРµРіРјРµРЅС‚Р° */
 			ELS->Name = EdgeLineSegmentNumber+1;
 			ELS->Incl = DEGREE_180;
 
@@ -659,7 +659,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 #endif
 			
 			Count=1;
-			/* сбор сегмента */
+			/* СЃР±РѕСЂ СЃРµРіРјРµРЅС‚Р° */
 			while(ap != ip)
 			{
 				cindex=*(SegmentIndex +ap);
@@ -670,7 +670,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 					int FFF_DEBUG = 0;
 #endif
 				int BIncl = (VPR_InclPtr+cindex)->I1;
-				// поиск следующих ячеек
+				// РїРѕРёСЃРє СЃР»РµРґСѓСЋС‰РёС… СЏС‡РµРµРє
 				int NeighbourFound = -1;
 				for (i = 1; i < STREAM_REGION_3_SIZE; i++)
 				{
@@ -718,7 +718,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 #endif
 			GlobalSegmentIndex += Count;
 
-			// назначение конечных точек
+			// РЅР°Р·РЅР°С‡РµРЅРёРµ РєРѕРЅРµС‡РЅС‹С… С‚РѕС‡РµРє
 			Count = 0;
 			if (ELS->IndexList[0].Start == ELS->IndexList[0].End)
 			{
@@ -736,7 +736,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 					UC c, ca, cc;
 					DefPoint_VPR(VPR_EdgeSegmNamePtr + index, &c, &ca, &cc, 0, (VPR_EdgeSegmNamePtr + index)->Pred);
 					UC Type = DefPointType_VPR(c, cc);
-					if (Type == 1)  // точка окончания линии
+					if (Type == 1)  // С‚РѕС‡РєР° РѕРєРѕРЅС‡Р°РЅРёСЏ Р»РёРЅРёРё
 					{
 						if (Count < MAX_END_POINT)
 						{
@@ -755,7 +755,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 						UC c, ca, cc;
 						DefPoint_VPR(VPR_EdgeSegmNamePtr + index, &c, &ca, &cc, 0, (VPR_EdgeSegmNamePtr + index)->Pred);
 						UC Type = DefPointType_VPR(c, cc);
-						if (Type == 3)  // точка ветвления линии
+						if (Type == 3)  // С‚РѕС‡РєР° РІРµС‚РІР»РµРЅРёСЏ Р»РёРЅРёРё
 						{
 							if (Count < 2)
 								S_OffsetToCoord((SI)index, ELS->EndPoint[Count].X, ELS->EndPoint[Count].Y);
@@ -768,7 +768,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 				}
 				if (Count > 2)
 				{
-					// нахождение 2 наиболее удаленных точек (остальные - ложные конечные точки)
+					// РЅР°С…РѕР¶РґРµРЅРёРµ 2 РЅР°РёР±РѕР»РµРµ СѓРґР°Р»РµРЅРЅС‹С… С‚РѕС‡РµРє (РѕСЃС‚Р°Р»СЊРЅС‹Рµ - Р»РѕР¶РЅС‹Рµ РєРѕРЅРµС‡РЅС‹Рµ С‚РѕС‡РєРё)
 					SL MaxDist = 0,Dist;
 					for(ep1=0;ep1 < Count;ep1++)
 						for (ep2 = ep1+1; ep2 < Count; ep2++)
@@ -790,7 +790,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 			}
 			#ifdef ACTIVATE_HELPER
 			if (Count != 2)
-				FaultError("Ошибка определения финальных точек!!!");
+				FaultError("РћС€РёР±РєР° РѕРїСЂРµРґРµР»РµРЅРёСЏ С„РёРЅР°Р»СЊРЅС‹С… С‚РѕС‡РµРє!!!");
 			#endif
 
 			EdgeLineSegmentNumber++;
@@ -799,7 +799,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 				break;
 		}
 	}
-	// удаление оставшихся точек соединения, чтобы позже восстановить единую линию без ответвлений
+	// СѓРґР°Р»РµРЅРёРµ РѕСЃС‚Р°РІС€РёС…СЃСЏ С‚РѕС‡РµРє СЃРѕРµРґРёРЅРµРЅРёСЏ, С‡С‚РѕР±С‹ РїРѕР·Р¶Рµ РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ РµРґРёРЅСѓСЋ Р»РёРЅРёСЋ Р±РµР· РѕС‚РІРµС‚РІР»РµРЅРёР№
 	for (P = 0, bpredptr = PredPtr; P < S_XY; P++, bpredptr++)
 		DelPred(&bpredptr->Pred, SegmentPred);
 
@@ -821,7 +821,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 	while (1)
 	{
 		//*************************************************************************
-		//				Сортировка линейных сегментов на основе их меры				 
+		//				РЎРѕСЂС‚РёСЂРѕРІРєР° Р»РёРЅРµР№РЅС‹С… СЃРµРіРјРµРЅС‚РѕРІ РЅР° РѕСЃРЅРѕРІРµ РёС… РјРµСЂС‹				 
 		//*************************************************************************
 		Count = 0;
 		for (s = 0; s < EdgeLineSegmentNumber; s++)
@@ -840,19 +840,19 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 				EdgeLineSegmentList[index] = EdgeLineSegment;
 			}
 		}
-		// исключение соединенных сегментов
+		// РёСЃРєР»СЋС‡РµРЅРёРµ СЃРѕРµРґРёРЅРµРЅРЅС‹С… СЃРµРіРјРµРЅС‚РѕРІ
 		if (Iteration && EdgeLineSegmentNumber)
 			EdgeLineSegmentNumber--;
 
 
 		//*************************************************************************
-		//				Попытка соединения линейных сегментов между собой
+		//				РџРѕРїС‹С‚РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ Р»РёРЅРµР№РЅС‹С… СЃРµРіРјРµРЅС‚РѕРІ РјРµР¶РґСѓ СЃРѕР±РѕР№
 		//*************************************************************************
 
 		for (bs = 0; bs < EdgeLineSegmentNumber; bs++)
 		{
 			BELS = &EdgeLineSegmentList[bs];
-			// конечная точка не определена
+			// РєРѕРЅРµС‡РЅР°СЏ С‚РѕС‡РєР° РЅРµ РѕРїСЂРµРґРµР»РµРЅР°
 			if (BELS->EndPoint[0].X == 0 || BELS->EndPoint[0].Y == 0 || BELS->EndPoint[1].X == 0 || BELS->EndPoint[1].Y == 0)
 				continue;
 			int BIncl = GetIncl(BELS->EndPoint[0].X, BELS->EndPoint[0].Y, BELS->EndPoint[1].X, BELS->EndPoint[1].Y);
@@ -870,7 +870,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 				for (s = bs + 1; s < EdgeLineSegmentNumber; s++)
 				{
 					ELS = &EdgeLineSegmentList[s];
-					// конечная точка не определена
+					// РєРѕРЅРµС‡РЅР°СЏ С‚РѕС‡РєР° РЅРµ РѕРїСЂРµРґРµР»РµРЅР°
 					if (ELS->EndPoint[0].X == 0 || ELS->EndPoint[0].Y == 0 || ELS->EndPoint[1].X == 0 || ELS->EndPoint[1].Y == 0)
 						continue;
 
@@ -889,7 +889,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 						int DirP = GetDir(BEP1->X, BEP1->Y, EP1->X, EP1->Y);
 						int DirP2 = GetDir(BEP1->X, BEP1->Y, EP2->X, EP2->Y);
 						int Dir,DDir;
-						if (EP1->X == EP2->X && EP1->Y == EP2->Y)// точечный сегмент - использует наклонение ячейки вместо dir ep1->ep2
+						if (EP1->X == EP2->X && EP1->Y == EP2->Y)// С‚РѕС‡РµС‡РЅС‹Р№ СЃРµРіРјРµРЅС‚ - РёСЃРїРѕР»СЊР·СѓРµС‚ РЅР°РєР»РѕРЅРµРЅРёРµ СЏС‡РµР№РєРё РІРјРµСЃС‚Рѕ dir ep1->ep2
 						{
 							Incl = Incl_8_To_128((VPR_InclPtr + (*(SegmentIndex + ELS->IndexList[0].Start)))->I1);
 							DDir = DeltaIncl((UC)BIncl, (UC)Incl,DEGREE_180);
@@ -917,13 +917,13 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 						}
 					}
 				}
-				// найдено наилучшее соединение
+				// РЅР°Р№РґРµРЅРѕ РЅР°РёР»СѓС‡С€РµРµ СЃРѕРµРґРёРЅРµРЅРёРµ
 				if (MinM != MAX_VALUE_SL)
 				{
 					ELS = &EdgeLineSegmentList[sindex];
 					EP2 = &ELS->EndPoint[index];
 					
-					// переименование точек соединенных сегментов и добавление IndexList к базовому сегменту
+					// РїРµСЂРµРёРјРµРЅРѕРІР°РЅРёРµ С‚РѕС‡РµРє СЃРѕРµРґРёРЅРµРЅРЅС‹С… СЃРµРіРјРµРЅС‚РѕРІ Рё РґРѕР±Р°РІР»РµРЅРёРµ IndexList Рє Р±Р°Р·РѕРІРѕРјСѓ СЃРµРіРјРµРЅС‚Сѓ
 					for (i = 0; i < ELS->IndexNumber; i++)
 					{
 						for (index = ELS->IndexList[i].Start; index <= ELS->IndexList[i].End; index++)
@@ -935,18 +935,18 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 						}
 					}
 
-					*BEP1 = *EP2; // обновление конечной точки базового сегмента
+					*BEP1 = *EP2; // РѕР±РЅРѕРІР»РµРЅРёРµ РєРѕРЅРµС‡РЅРѕР№ С‚РѕС‡РєРё Р±Р°Р·РѕРІРѕРіРѕ СЃРµРіРјРµРЅС‚Р°
 
-					BELS->SumM += ELS->SumM; // обновление SumM базового сегмента
-					ELS->SumM = 0;// отметка сегмента, который будет удален на следующей итерации
+					BELS->SumM += ELS->SumM; // РѕР±РЅРѕРІР»РµРЅРёРµ SumM Р±Р°Р·РѕРІРѕРіРѕ СЃРµРіРјРµРЅС‚Р°
+					ELS->SumM = 0;// РѕС‚РјРµС‚РєР° СЃРµРіРјРµРЅС‚Р°, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ СѓРґР°Р»РµРЅ РЅР° СЃР»РµРґСѓСЋС‰РµР№ РёС‚РµСЂР°С†РёРё
 
-					break;// разрешение только одного соединения для одной итерации
+					break;// СЂР°Р·СЂРµС€РµРЅРёРµ С‚РѕР»СЊРєРѕ РѕРґРЅРѕРіРѕ СЃРѕРµРґРёРЅРµРЅРёСЏ РґР»СЏ РѕРґРЅРѕР№ РёС‚РµСЂР°С†РёРё
 				}
 			}
 			if (bep1 < 2)
 				break;
 		}
-		// ни одно новое соединение не найдено, остановка поиска
+		// РЅРё РѕРґРЅРѕ РЅРѕРІРѕРµ СЃРѕРµРґРёРЅРµРЅРёРµ РЅРµ РЅР°Р№РґРµРЅРѕ, РѕСЃС‚Р°РЅРѕРІРєР° РїРѕРёСЃРєР°
 		if (bs >= EdgeLineSegmentNumber)
 			break;
 		Iteration++;
@@ -968,7 +968,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 #endif
 
 	//*************************************************************************
-	//				    Выбор основных сегментов								
+	//				    Р’С‹Р±РѕСЂ РѕСЃРЅРѕРІРЅС‹С… СЃРµРіРјРµРЅС‚РѕРІ								
 	//*************************************************************************
 	int ActiveEdgeLineSegmentNumber = EdgeLineSegmentNumber;
 	if (VPRDescriptor->ExpectedNumberOfFingers && ActiveEdgeLineSegmentNumber > VPRDescriptor->ExpectedNumberOfFingers * 2)
@@ -986,7 +986,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 			ELS->Incl = GetIncl(ELS->EndPoint[0].X, ELS->EndPoint[0].Y, ELS->EndPoint[1].X, ELS->EndPoint[1].Y);
 			if (VPRDescriptor->ExpectedOrienation)
 			{
-				if (VPRDescriptor->ExpectedOrienation == 1) //1 - палец ориентирован вертикально
+				if (VPRDescriptor->ExpectedOrienation == 1) //1 - РїР°Р»РµС† РѕСЂРёРµРЅС‚РёСЂРѕРІР°РЅ РІРµСЂС‚РёРєР°Р»СЊРЅРѕ
 					Incl = DEGREE_90;
 				else
 					Incl = 0;
@@ -1010,7 +1010,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 	ActiveEdgeLineSegmentNumber = i;
 
 	//*************************************************************************
-	// 	  Удаление всех сегментов, представляющих края линий, кроме основных				
+	// 	  РЈРґР°Р»РµРЅРёРµ РІСЃРµС… СЃРµРіРјРµРЅС‚РѕРІ, РїСЂРµРґСЃС‚Р°РІР»СЏСЋС‰РёС… РєСЂР°СЏ Р»РёРЅРёР№, РєСЂРѕРјРµ РѕСЃРЅРѕРІРЅС‹С…				
 	//*************************************************************************
 	for (s = ActiveEdgeLineSegmentNumber; s < EdgeLineSegmentNumber; s++)
 	{
@@ -1042,16 +1042,16 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 #endif
 
 	//*************************************************************************
-	//			Проверка наличия необходимого кол-ва линейных сегментов							
+	//			РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ РЅРµРѕР±С…РѕРґРёРјРѕРіРѕ РєРѕР»-РІР° Р»РёРЅРµР№РЅС‹С… СЃРµРіРјРµРЅС‚РѕРІ							
 	//*************************************************************************
 	if (VPRDescriptor->ExpectedNumberOfFingers)
 	{
 		if (ActiveEdgeLineSegmentNumber != VPRDescriptor->ExpectedNumberOfFingers * 2)
-			return 0; //не выполнять очистку фона 
+			return 0; //РЅРµ РІС‹РїРѕР»РЅСЏС‚СЊ РѕС‡РёСЃС‚РєСѓ С„РѕРЅР° 
 	}
 
 	//************************************************************************************
-	//		Определение внутренней области на основе активных сегментов линий края		
+	//		РћРїСЂРµРґРµР»РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРµР№ РѕР±Р»Р°СЃС‚Рё РЅР° РѕСЃРЅРѕРІРµ Р°РєС‚РёРІРЅС‹С… СЃРµРіРјРµРЅС‚РѕРІ Р»РёРЅРёР№ РєСЂР°СЏ		
 	//************************************************************************************
 	if (ActiveEdgeLineSegmentNumber == 2)
 	{
@@ -1108,12 +1108,12 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 
 					if (!ELSName1)
 					{
-						// поиск сегмента линии края слева
+						// РїРѕРёСЃРє СЃРµРіРјРµРЅС‚Р° Р»РёРЅРёРё РєСЂР°СЏ СЃР»РµРІР°
 						bnindex = sindex;
 						Count = 0;
 						while (1)
 						{
-							// проход на S_CUTSET_HSIZE шагов влево
+							// РїСЂРѕС…РѕРґ РЅР° S_CUTSET_HSIZE С€Р°РіРѕРІ РІР»РµРІРѕ
 							for (n = 0; n < S_CUTSET_HSIZE; n++)
 							{
 								offset = *(BNIPtr + n);
@@ -1145,18 +1145,18 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 							}
 							if (n < S_CUTSET_HSIZE)
 								break;
-							bnindex = nindex; // перезапуск с последней точки
+							bnindex = nindex; // РїРµСЂРµР·Р°РїСѓСЃРє СЃ РїРѕСЃР»РµРґРЅРµР№ С‚РѕС‡РєРё
 						}
 					}
 
 					if (!ELSName2)
 					{
-						// поиск сегмента линии края справа
+						// РїРѕРёСЃРє СЃРµРіРјРµРЅС‚Р° Р»РёРЅРёРё РєСЂР°СЏ СЃРїСЂР°РІР°
 						bnindex = sindex;
 						Count = 0;
 						while (1)
 						{
-							// проход на S_CUTSET_HSIZE шагов вправо
+							// РїСЂРѕС…РѕРґ РЅР° S_CUTSET_HSIZE С€Р°РіРѕРІ РІРїСЂР°РІРѕ
 							for (n = 0; n < S_CUTSET_HSIZE; n++)
 							{
 								offset = *(BNIPtr + n);
@@ -1189,7 +1189,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 							}
 							if (n < S_CUTSET_HSIZE)
 								break;
-							bnindex = nindex; // перезапуск с последней точки
+							bnindex = nindex; // РїРµСЂРµР·Р°РїСѓСЃРє СЃ РїРѕСЃР»РµРґРЅРµР№ С‚РѕС‡РєРё
 						}
 					}
 					if (ELSName1 && ELSName2)
@@ -1213,7 +1213,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 #endif
 
 	//****************************************************
-	//		Завершение определения области пальца		
+	//		Р—Р°РІРµСЂС€РµРЅРёРµ РѕРїСЂРµРґРµР»РµРЅРёСЏ РѕР±Р»Р°СЃС‚Рё РїР°Р»СЊС†Р°		
 	//****************************************************
 	for (sy = VPR_S_Top, bsindex = VPR_S_Offset; sy <= VPR_S_Bottom; sy++, bsindex += S_X)
 		for (sx = VPR_S_Left, sindex = bsindex; sx <= VPR_S_Right; sx++, sindex++)
@@ -1234,13 +1234,13 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 					Count++;
 			}
 			if (GetPred(&bpredptr->Pred, (REGION3_PRED|CHANGE_PRED)) == (REGION3_PRED|CHANGE_PRED) && Count <= 3)
-				SetPred(&bpredptr->Pred, TMP3_PRED);// удаление выступов
+				SetPred(&bpredptr->Pred, TMP3_PRED);// СѓРґР°Р»РµРЅРёРµ РІС‹СЃС‚СѓРїРѕРІ
 			else
 			if (!GetPred(&bpredptr->Pred,REGION3_PRED|CHANGE_PRED) && Count >= 3)
-				SetPred(&bpredptr->Pred, TMP2_PRED);// добавление углов
+				SetPred(&bpredptr->Pred, TMP2_PRED);// РґРѕР±Р°РІР»РµРЅРёРµ СѓРіР»РѕРІ
 			else
 			if (GetPred(&bpredptr->Pred,REGION3_PRED) && !GetPred(&bpredptr->Pred,CHANGE_PRED) && Count >= 5)
-				SetPred(&bpredptr->Pred, TMP2_PRED);// заполнение одиночных неопределенных ячеек
+				SetPred(&bpredptr->Pred, TMP2_PRED);// Р·Р°РїРѕР»РЅРµРЅРёРµ РѕРґРёРЅРѕС‡РЅС‹С… РЅРµРѕРїСЂРµРґРµР»РµРЅРЅС‹С… СЏС‡РµРµРє
 		}
 
 #ifdef ACTIVATE_HELPER
@@ -1260,7 +1260,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 	}
 
 	//****************************************************
-	//		Отметка линий края области пальца		
+	//		РћС‚РјРµС‚РєР° Р»РёРЅРёР№ РєСЂР°СЏ РѕР±Р»Р°СЃС‚Рё РїР°Р»СЊС†Р°		
 	//****************************************************
 	for (sy = VPR_S_Top, bsindex = VPR_S_Offset, ry = S_To_R_Coord(sy);
 		sy <= VPR_S_Bottom;
@@ -1283,15 +1283,15 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 			if (GetPred(&(bpredptr)->Pred, CHANGE_PRED))
 			{
 				if (Count >= 4)
-					continue;// внутренняя область
+					continue;// РІРЅСѓС‚СЂРµРЅРЅСЏСЏ РѕР±Р»Р°СЃС‚СЊ
 
-				SetPred(&bpredptr->Pred, TMP2_PRED);// внутренняя область края
+				SetPred(&bpredptr->Pred, TMP2_PRED);// РІРЅСѓС‚СЂРµРЅРЅСЏСЏ РѕР±Р»Р°СЃС‚СЊ РєСЂР°СЏ
 			}
 			else
 			{
 				if (Count >= 1)
 				{
-					SetPred(&bpredptr->Pred, TMP3_PRED);// внешняя область края
+					SetPred(&bpredptr->Pred, TMP3_PRED);// РІРЅРµС€РЅСЏСЏ РѕР±Р»Р°СЃС‚СЊ РєСЂР°СЏ
 				}
 			}
 		}
@@ -1301,7 +1301,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 #endif
 
 	//*********************************************************
-	//		Очистка фона (зона за пределами области пальца)	
+	//		РћС‡РёСЃС‚РєР° С„РѕРЅР° (Р·РѕРЅР° Р·Р° РїСЂРµРґРµР»Р°РјРё РѕР±Р»Р°СЃС‚Рё РїР°Р»СЊС†Р°)	
 	//*********************************************************
 	#define BACKGROUNG_VALUE 255
 
@@ -1365,12 +1365,12 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 
 						Count++;
 						if (Count >= 5)
-							break;// достаточно данных
+							break;// РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґР°РЅРЅС‹С…
 					}
-					if (CountN == 0 || // ячейка НЕ находится близко к фоновой области
+					if (CountN == 0 || // СЏС‡РµР№РєР° РќР• РЅР°С…РѕРґРёС‚СЃСЏ Р±Р»РёР·РєРѕ Рє С„РѕРЅРѕРІРѕР№ РѕР±Р»Р°СЃС‚Рё
 						!Count)
 						continue;
-					Count2 = (Count2 * 40) / 100; //Count2 = (Count2 * 25) / 100;// не принимаем во внимание некоторую часть темных пикселей
+					Count2 = (Count2 * 40) / 100; //Count2 = (Count2 * 25) / 100;// РЅРµ РїСЂРёРЅРёРјР°РµРј РІРѕ РІРЅРёРјР°РЅРёРµ РЅРµРєРѕС‚РѕСЂСѓСЋ С‡Р°СЃС‚СЊ С‚РµРјРЅС‹С… РїРёРєСЃРµР»РµР№
 					Count = 0;
 					int FilterValue;
 					for (FilterValue = 0; FilterValue < 255; FilterValue++)
@@ -1385,7 +1385,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 						int FFF_DEBUG = 0;
 #endif
 
-					// очистка внешних областей
+					// РѕС‡РёСЃС‚РєР° РІРЅРµС€РЅРёС… РѕР±Р»Р°СЃС‚РµР№
 					for (y = 0, index = brindex;
 						y < S_ITEM_SIZE;
 						y++, index += R_X)
@@ -1412,7 +1412,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 				else
 				if (!Iteration && !GetPred(&(bpredptr)->Pred, CHANGE_PRED|TMP3_PRED))
 				{
-					// очистка внешних областей
+					// РѕС‡РёСЃС‚РєР° РІРЅРµС€РЅРёС… РѕР±Р»Р°СЃС‚РµР№
 					for (y = 0, index = brindex;
 						y < S_ITEM_SIZE;
 						y++, index += R_X)
@@ -1479,7 +1479,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 						int FFF_DEBUG = 0;
 #endif
 
-					// очистка внешних областей
+					// РѕС‡РёСЃС‚РєР° РІРЅРµС€РЅРёС… РѕР±Р»Р°СЃС‚РµР№
 					for (y = 0, index = brindex;
 						y < S_ITEM_SIZE;
 						y++, index += R_X)
@@ -1524,7 +1524,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 #endif
 
 	//*************************************************************************
-	//		 Копирования полученного изображения обратно в выходной буфер				
+	//		 РљРѕРїРёСЂРѕРІР°РЅРёСЏ РїРѕР»СѓС‡РµРЅРЅРѕРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РѕР±СЂР°С‚РЅРѕ РІ РІС‹С…РѕРґРЅРѕР№ Р±СѓС„РµСЂ				
 	//*************************************************************************
 	memset(VPRDescriptor->InputImage, 255, VPRDescriptor->ImageSizeX*VPRDescriptor->ImageSizeY);
 	index = ((VPRDescriptor->ImageSizeY - (VPR_R_Bottom - VPR_R_Top + 1)) / 2)* VPRDescriptor->ImageSizeX + 
@@ -1547,7 +1547,7 @@ for (P = 0, predptr = PredPtr; P < S_XY; P++, predptr++)
 }
 
 
-/* ПЕРЕМЕННЫЕ ДОЛЖНЫ БЫТЬ НАЗНАЧЕНЫ ДО ВЫЗОВА ФУНКЦИИ: vpr_poffset1,vpr_poffset2,vpr_poffset4,vpr_poffset6,vpr_poffset8 */
+/* РџР•Р Р•РњР•РќРќР«Р• Р”РћР›Р–РќР« Р‘Р«РўР¬ РќРђР—РќРђР§Р•РќР« Р”Рћ Р’Р«Р—РћР’Рђ Р¤РЈРќРљР¦РР: vpr_poffset1,vpr_poffset2,vpr_poffset4,vpr_poffset6,vpr_poffset8 */
 UC	PointParallelIntegration_15_VPR(UC *rptr)
 {
 	UI P;
@@ -1659,16 +1659,16 @@ void DefPoint_VPR(PRED_SP *pptr, UC *Count, UC *CountAll, UC *CountChange, UI  P
 
 UC   DefPointType_VPR(UC Count, UC CountChange)
 {
-	/* Внутренняя точка линии */
+	/* Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ С‚РѕС‡РєР° Р»РёРЅРёРё */
 	if (Count == 2 && CountChange == 4)
 		return 2;
-	/* Точка окончания линии */
+	/* РўРѕС‡РєР° РѕРєРѕРЅС‡Р°РЅРёСЏ Р»РёРЅРёРё */
 	if (Count == 1 && CountChange == 2)
 		return 1;
-	/* Точка соединения 3-х линий */
+	/* РўРѕС‡РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ 3-С… Р»РёРЅРёР№ */
 	if (Count == 3 && CountChange == 6)
 		return 3;
-	/* Точка соединения 4-х линий */
+	/* РўРѕС‡РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ 4-С… Р»РёРЅРёР№ */
 	if (Count == 4 && CountChange == 8)
 		return 4;
 	return 0;
